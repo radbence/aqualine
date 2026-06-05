@@ -1,0 +1,88 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__info">
+      <p class="site-footer__name">Aqua-Line Bau Kft.</p>
+      <address class="site-footer__address">
+        <p>Székhely: 1048 Budapest, Csíksomlyó utca 2., 1. épület, D lépcsőház 1/6.</p>
+        <p>Telephely: 4031 Debrecen, Bartók Béla út 115.</p>
+        <p>Levelezési cím: 3561 Felsőzsolca, Mátyás király u. 1.</p>
+      </address>
+      <p class="site-footer__contact">
+        <a href="tel:+36205555878">+36 (20) 5555-878</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="mailto:info@aqualinebau.hu">info@aqualinebau.hu</a>
+      </p>
+      <!-- TODO: cégjegyzékszám, adószám -->
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Lábléc menü">
+      <a href="/">Főoldal</a>
+      <a href="/rolunk">Rólunk</a>
+      <a href="/referenciak">Referenciák</a>
+      <a href="/kapcsolat">Kapcsolat</a>
+    </nav>
+
+    <p class="site-footer__copy">
+      &copy; 2011&ndash;{currentYear} Aqua-Line Bau Kft. Minden jog fenntartva.
+    </p>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  background: var(--color-dark);
+  color: rgba(255,255,255,0.75);
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  font-size: .9rem;
+}
+.site-footer__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.site-footer__name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 var(--space-2);
+}
+.site-footer__address {
+  font-style: normal;
+  margin: 0 0 var(--space-2);
+}
+.site-footer__address p {
+  margin: 0 0 .25rem;
+}
+.site-footer__contact {
+  margin: 0 0 var(--space-3);
+}
+.site-footer__contact a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.site-footer__contact a:hover {
+  text-decoration: underline;
+}
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.site-footer__nav a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+}
+.site-footer__nav a:hover {
+  color: #fff;
+}
+.site-footer__copy {
+  margin: 0;
+  font-size: .8rem;
+  color: rgba(255,255,255,0.4);
+}
+</style>

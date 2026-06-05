@@ -1,0 +1,120 @@
+---
+const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '5fe3021c-5560-4e4b-b240-4208801193fa';
+---
+
+<form
+  class="quote-form"
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  accept-charset="UTF-8"
+>
+  <input type="hidden" name="access_key" value={formKey} />
+  <input type="hidden" name="subject" value="Új árajánlatkérés — aqualinebau.hu" />
+  <input type="hidden" name="from_name" value="Aqua-Line Bau weboldal" />
+
+  <div class="form-field">
+    <label for="quote-name">Név <span aria-hidden="true">*</span></label>
+    <input type="text" id="quote-name" name="name" required placeholder="Név" />
+  </div>
+
+  <div class="form-field">
+    <label for="quote-email">Email-cím <span aria-hidden="true">*</span></label>
+    <input type="email" id="quote-email" name="email" required placeholder="Email-cím" />
+  </div>
+
+  <div class="form-field">
+    <label for="quote-phone">Telefonszám</label>
+    <input type="tel" id="quote-phone" name="phone" placeholder="Telefonszám" />
+  </div>
+
+  <div class="form-field">
+    <label for="quote-type">Munka típusa</label>
+    <select id="quote-type" name="project_type">
+      <option value="">— Válasszon —</option>
+      <option value="Szennyvíz beruházás">Szennyvíz beruházás</option>
+      <option value="Vízi létesítmények">Vízi létesítmények</option>
+      <option value="Szerkezetépítés">Szerkezetépítés</option>
+      <option value="Város rehabilitáció">Város rehabilitáció</option>
+      <option value="Egyéb">Egyéb</option>
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label for="quote-location">Helyszín</label>
+    <input type="text" id="quote-location" name="location" placeholder="Helyszín" />
+  </div>
+
+  <div class="form-field">
+    <label for="quote-message">Üzenet <span aria-hidden="true">*</span></label>
+    <textarea
+      id="quote-message"
+      name="message"
+      required
+      rows="5"
+      placeholder="Írja le röviden a projektjét..."
+    ></textarea>
+  </div>
+
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none;" />
+
+  <button type="submit" class="quote-form__submit">Elküldés</button>
+</form>
+
+<style>
+.quote-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.hidden {
+  display: none;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+.form-field label {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: .85rem;
+  margin-bottom: .3rem;
+  color: var(--color-dark);
+}
+.form-field label span[aria-hidden] {
+  color: #c00;
+}
+.form-field input,
+.form-field select,
+.form-field textarea {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  padding: .7rem .9rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--color-text);
+  transition: border-color .15s;
+}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+.quote-form__submit {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: .95rem;
+  padding: .75rem 2rem;
+  background: var(--color-dark);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background .2s;
+}
+.quote-form__submit:hover {
+  background: #000;
+}
+</style>

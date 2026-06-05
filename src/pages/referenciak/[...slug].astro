@@ -1,0 +1,118 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const referenciak = await getCollection('referenciak');
+  return referenciak
+    .filter((r) => {
+      const body = r.body?.trim() ?? '';
+      return body.length > 0 && !body.startsWith('TODO');
+    })
+    .map((r) => ({ params: { slug: r.id } }));
+}
+
+const { slug } = Astro.params;
+const references = await getCollection('referenciak');
+const ref = references.find((r) => r.id === slug);
+
+if (!ref) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await render(ref);
+---
+
+<Base title={ref.data.cim} description={ref.data.cim}>
+  <main class="page">
+    <section class="hero-secondary">
+      <div class="hero-secondary__content">
+        <h1 class="hero-secondary__title">{ref.data.cim}</h1>
+        {ref.data.helyszin && ref.data.helyszin !== 'TODO' && (
+          <p class="hero-secondary__location">{ref.data.helyszin}</p>
+        )}
+        {ref.data.datum && (
+          <time class="hero-secondary__date" datetime={ref.data.datum.toISOString()}>
+            {ref.data.datum.toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+        )}
+      </div>
+    </section>
+
+    <section class="detail-content">
+      <div class="detail-content__body">
+        <Content />
+      </div>
+      {ref.data.galeria && ref.data.galeria.length > 0 && (
+        <div class="detail-content__gallery">
+          {ref.data.galeria.map((img) => (
+            <img src={img} alt={ref.data.cim} loading="lazy" />
+          ))}
+        </div>
+      )}
+    </section>
+
+    <nav class="detail-back">
+      <a href="/referenciak">&larr; Vissza a referenciákhoz</a>
+    </nav>
+  </main>
+</Base>
+
+<style>
+.hero-secondary {
+  background: linear-gradient(135deg, rgba(40,40,40,0.82), rgba(40,40,40,0.9));
+  padding: var(--space-4) var(--space-3);
+  border-left: 10px solid var(--color-primary);
+}
+.hero-secondary__content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.hero-secondary__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: #fff;
+  margin: 0 0 var(--space-1);
+}
+.hero-secondary__location {
+  font-size: 1.05rem;
+  color: var(--color-primary);
+  margin: 0 0 var(--space-1);
+}
+.hero-secondary__date {
+  font-size: .9rem;
+  color: rgba(255,255,255,0.65);
+}
+.detail-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3);
+}
+.detail-content__body {
+  max-width: 720px;
+  line-height: 1.8;
+}
+.detail-content__gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.detail-content__gallery img {
+  width: 100%;
+  border-radius: var(--radius);
+}
+.detail-back {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-3) var(--space-4);
+}
+.detail-back a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.detail-back a:hover {
+  text-decoration: underline;
+}
+</style>

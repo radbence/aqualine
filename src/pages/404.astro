@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="404 — Az oldal nem található">
+
+<main class="page not-found">
+  <div class="not-found__inner">
+    <h1 class="not-found__code">404</h1>
+    <p class="not-found__message">
+      A keresett oldal nem található. Lehet, hogy elírtad a címet, vagy az oldal
+      már nem létezik.
+    </p>
+    <a href="/" class="btn btn--primary">Vissza a főoldalra</a>
+  </div>
+</main>
+
+</Base>
+
+<style>
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--space-4) var(--space-3);
+}
+.not-found__inner {
+  text-align: center;
+  max-width: 480px;
+}
+.not-found__code {
+  font-family: var(--font-heading);
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 var(--space-2);
+  line-height: 1;
+}
+.not-found__message {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin: 0 0 var(--space-4);
+  color: #666;
+}
+.btn {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: .9rem;
+  text-decoration: none;
+  border-radius: 20px;
+  transition: background .2s;
+}
+.btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+  padding: .75rem 2rem;
+}
+.btn--primary:hover {
+  background: #3452b8;
+}
+</style>

@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Base title="Kapcsolat" description="Lépjen kapcsolatba az Aqua-Line Bau Kft.-vel.">
+
+<main class="page">
+  <section class="hero-secondary">
+    <div class="hero-secondary__content">
+      <h1 class="hero-secondary__title">Kapcsolat</h1>
+      <p class="hero-secondary__lead">
+        Állunk szíves rendelkezésükre az alábbi elérhetőségeinken.
+      </p>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <div class="quote-section__inner">
+      <div class="quote-section__form-col">
+        <h2 class="quote-section__title">Várjuk üzenetét!</h2>
+        <ContactForm />
+      </div>
+      <div class="quote-section__contact-col">
+        <h3 class="quote-section__contact-title">Elérhetőségeink</h3>
+        <address class="quote-section__address">
+          <p><strong>Székhely:</strong><br/>1048 Budapest, Csíksomlyó utca 2., 1. épület, D lépcsőház 1/6.</p>
+          <p><strong>Telephely:</strong><br/>4031 Debrecen, Bartók Béla út 115.</p>
+          <p><strong>Levelezési cím:</strong><br/>3561 Felsőzsolca, Mátyás király u. 1.</p>
+        </address>
+        <p class="quote-section__phone">
+          <a href="tel:+36205555878">+36 (20) 5555-878</a>
+        </p>
+        <p class="quote-section__email">
+          <a href="mailto:info@aqualinebau.hu">info@aqualinebau.hu</a>
+        </p>
+        <img
+          src="/images/aqua3.png"
+          alt=""
+          class="quote-section__img"
+          loading="lazy"
+          width="323"
+          height="193"
+        />
+      </div>
+    </div>
+  </section>
+</main>
+
+</Base>
+
+<style>
+.hero-secondary {
+  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92)), url('/images/1337.jpg');
+  background-size: cover;
+  background-position: center center;
+  padding: var(--space-4) var(--space-3);
+}
+.hero-secondary__content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.hero-secondary__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: #fff;
+  margin: 0 0 var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: .6em;
+}
+.hero-secondary__title::before {
+  content: '';
+  display: inline-block;
+  flex-shrink: 0;
+  width: 7px;
+  height: clamp(2rem, 5vw, 3.5rem);
+  background: var(--color-primary);
+}
+.hero-secondary__lead {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  max-width: 700px;
+}
+
+.quote-section {
+  background: var(--color-primary);
+  padding: var(--space-4) var(--space-3);
+}
+.quote-section__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+@media (min-width: 768px) {
+  .quote-section__inner {
+    flex-direction: row;
+  }
+  .quote-section__form-col {
+    flex: 1 1 55%;
+  }
+  .quote-section__contact-col {
+    flex: 1 1 45%;
+  }
+}
+.quote-section__title {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+  color: var(--color-dark);
+}
+.quote-section__contact-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-2);
+  color: var(--color-dark);
+}
+.quote-section__address {
+  font-style: normal;
+  line-height: 1.7;
+  font-size: .9rem;
+  color: var(--color-dark);
+  margin-bottom: var(--space-2);
+}
+.quote-section__address p {
+  margin: 0 0 var(--space-1);
+}
+.quote-section__phone a,
+.quote-section__email a {
+  color: var(--color-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+.quote-section__phone a:hover,
+.quote-section__email a:hover {
+  text-decoration: underline;
+}
+.quote-section__img {
+  max-width: 280px;
+  border-radius: var(--radius);
+  margin-top: var(--space-2);
+}
+</style>

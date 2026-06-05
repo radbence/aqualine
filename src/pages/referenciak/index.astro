@@ -1,0 +1,164 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const referenciak = await getCollection('referenciak');
+
+function hasBody(ref: typeof referenciak[number]): boolean {
+  return ref.body != null && ref.body.trim().length > 0 && !ref.body.startsWith('TODO');
+}
+
+const photos = ['7.jpg', '4.jpg', '3-1.jpg', '1-1.jpg', '2-1.jpg', '5.jpg', '1.jpg', '3.jpg'];
+const chunkSize = Math.ceil(referenciak.length / photos.length);
+const chunks: (typeof referenciak)[] = [];
+for (let i = 0; i < referenciak.length; i += chunkSize) {
+  chunks.push(referenciak.slice(i, i + chunkSize));
+}
+---
+
+<Base title="Referenciák" description="Aqua-Line Bau Kft. referenciamunkái">
+
+<main class="page">
+  <section class="hero-secondary">
+    <div class="hero-secondary__content">
+      <h1 class="hero-secondary__title">Referenciáink</h1>
+      <p class="hero-secondary__lead">
+        Az elmúlt években számos nagy volumenű mélyépítési és vízügyi projektet vittünk sikerre.
+      </p>
+    </div>
+  </section>
+
+  <section class="references-section">
+    <div class="references-section__inner">
+      {chunks.map((chunk, i) => {
+        const photo = photos[i];
+        return (
+          <div class="ref-row">
+            <div class="ref-row__text">
+              <ul class="ref-row__list">
+                {chunk.map((ref) => (
+                  <li>
+                    {hasBody(ref) ? (
+                      <a href={`/referenciak/${ref.id}`}>{ref.data.cim}</a>
+                    ) : (
+                      ref.data.cim
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="ref-row__image">
+              <img src={`/images/${photo}`} alt="" loading="lazy" />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+</main>
+
+</Base>
+
+<style>
+.hero-secondary {
+  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92)), url('/images/1337.jpg');
+  background-size: cover;
+  background-position: center center;
+  padding: var(--space-4) var(--space-3);
+}
+.hero-secondary__content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.hero-secondary__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: #fff;
+  margin: 0 0 var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: .6em;
+}
+.hero-secondary__title::before {
+  content: '';
+  display: inline-block;
+  flex-shrink: 0;
+  width: 7px;
+  height: clamp(2rem, 5vw, 3.5rem);
+  background: var(--color-primary);
+}
+.hero-secondary__lead {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  max-width: 700px;
+}
+
+.references-section {
+  padding: var(--space-4) var(--space-3);
+}
+.references-section__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.ref-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+.ref-row:last-child {
+  margin-bottom: 0;
+}
+
+.ref-row:nth-child(even) .ref-row__text {
+  grid-column: 2;
+  grid-row: 1;
+}
+.ref-row:nth-child(even) .ref-row__image {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.ref-row__list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.9;
+  color: var(--color-text);
+}
+.ref-row__list li {
+  margin-bottom: .15rem;
+}
+.ref-row__list a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.ref-row__list a:hover {
+  text-decoration: underline;
+}
+
+.ref-row__image img {
+  width: 100%;
+  height: auto;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .ref-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+  .ref-row:nth-child(even) .ref-row__text,
+  .ref-row:nth-child(even) .ref-row__image {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+</style>

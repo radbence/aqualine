@@ -1,43 +1,97 @@
-# Astro Starter Kit: Minimal
+# Aqua-Line Bau Kft. — Static Astro Website
 
-```sh
-npm create astro@latest -- --template minimal
+Company brochure site for Aqua-Line Bau Kft., a Hungarian civil-engineering firm specializing in large-volume deep construction and water management.
+
+## Stack
+
+- **Astro v6** (static, prerendered)
+- **TypeScript** (strict)
+- **Plain CSS** with design tokens
+- **Web3Forms** for contact forms (no backend)
+
+## Quick start
+
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # outputs to dist/
+npm run preview  # preview the built site
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project structure
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+  layouts/Base.astro        # HTML shell: head, header, footer
+  components/               # Reusable .astro components
+  content/referenciak/      # One .md file per reference project
+  pages/
+    index.astro             # Homepage
+    rolunk.astro            # About us
+    referenciak/
+      index.astro           # Reference listing (grouped by kategoria)
+      [...slug].astro       # Reference detail (only for entries with body)
+    kapcsolat.astro         # Contact page
+    404.astro               # Hungarian 404
+  styles/global.css         # Design tokens + base styles
+  content.config.ts         # Content Layer API collection definitions
+public/
+  images/                   # Logo, photos, favicon
+  fonts/                    # Self-hosted Rubik + Arimo (OFL / Apache 2.0)
+  _redirects                # Cloudflare Pages redirect map
+  robots.txt
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Adding a new reference project
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. Create a `.md` file in `src/content/referenciak/`:
+   ```md
+   ---
+   cim: "Project title"
+   datum: 2025-06-15
+   helyszin: "Budapest"
+   borito: "/images/project-photo.jpg"
+   kategoria: "Árvízvédelem"
+   kiemelt: false
+   ---
 
-Any static assets, like images, can be placed in the `public/` directory.
+   Project description in Markdown.
+   ```
+2. Commit and push → Cloudflare Pages deploys automatically.
+3. When `datum` is set to a real date, the listing sorts newest-first automatically.
+4. Set `kiemelet: true` to feature the project on the homepage.
+5. Once you add a real body (description), a detail page at `/referenciak/[slug]` is generated.
 
-## 🧞 Commands
+## Editing page text
 
-All commands are run from the root of the project, from a terminal:
+- **Homepage sections**: Edit `src/pages/index.astro` directly.
+- **Company info / about text**: Edit `src/pages/rolunk.astro`.
+- **Contact details**: Edit `src/pages/kapcsolat.astro` and `src/components/Footer.astro`.
+- **Stats numbers**: In `src/pages/index.astro` — `alapitasEve` (founding year) and `projektSzam`.
+- **Service categories**: Edit the `szolgaltatasok` array in `src/pages/index.astro`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Form submissions
 
-## 👀 Want to learn more?
+The "Kérjen árajánlatot!" form POSTs to Web3Forms. The access key is in `.env` as `PUBLIC_WEB3FORMS_KEY`. Submissions arrive at `info@aqualinebau.hu`. No backend server needed.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deployment
+
+**Cloudflare Pages**: connect the repo, set build command `npm run build`, output directory `dist`. The `_redirects` file in `public/` is picked up automatically.
+
+## Font licenses
+
+- **Rubik** — SIL Open Font License 1.1
+- **Arimo** — Apache License 2.0
+
+Both are self-hosted in `public/fonts/` — no Google CDN connections.
+
+## TODOs
+
+- [ ] Bence: verify phone number `+36 (20) 5555-878`
+- [ ] Bence: verify "250 sikeres projekt" stats figure
+- [ ] Bence: add `cégjegyzékszám` and `adószám` to footer + impressum
+- [ ] Bence: download reference project photos from old WordPress server into `public/images/`
+- [ ] Bence: fill in `kategoria`, `datum`, `helyszin`, `borito` fields in each `content/referenciak/*.md`
+- [ ] Bence: write real project descriptions (body) in `.md` files to enable detail pages
+- [ ] Bence: add custom favicon (current: auto-generated from SVG logo)
+- [ ] Bence: decide on Google Maps embed for `/kapcsolat` (privacy-friendly, consent-managed)
