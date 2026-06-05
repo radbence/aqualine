@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+const base = import.meta.env.BASE_URL + '/';
 
 const referenciak = await getCollection('referenciak');
 
@@ -39,7 +40,7 @@ for (let i = 0; i < referenciak.length; i += chunkSize) {
                 {chunk.map((ref) => (
                   <li>
                     {hasBody(ref) ? (
-                      <a href={`/referenciak/${ref.id}`}>{ref.data.cim}</a>
+                      <a href={`${base}referenciak/${ref.id}`}>{ref.data.cim}</a>
                     ) : (
                       ref.data.cim
                     )}
@@ -48,7 +49,7 @@ for (let i = 0; i < referenciak.length; i += chunkSize) {
               </ul>
             </div>
             <div class="ref-row__image">
-              <img src={`/images/${photo}`} alt="" loading="lazy" />
+              <img src={`${base}images/${photo}`} alt="" loading="lazy" />
             </div>
           </div>
         );

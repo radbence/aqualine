@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.aqualinebau.hu',
+  site: 'https://radbence.github.io',
+  base: '/aqualine',
   integrations: [sitemap()],
 });

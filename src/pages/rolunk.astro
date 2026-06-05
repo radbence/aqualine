@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL + '/';
 ---
 
 <Base title="Rólunk" description="Az Aqua-Line Bau Kft. története és értékei.">
@@ -94,7 +95,7 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <div class="advantages__cta">
-        <a href="/referenciak" class="btn btn--accent">Referenciáink</a>
+        <a href={`${base}referenciak`} class="btn btn--accent">Referenciáink</a>
       </div>
     </div>
   </section>

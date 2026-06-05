@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL + '/';
 const currentYear = new Date().getFullYear();
 ---
 
@@ -20,10 +21,10 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <nav class="site-footer__nav" aria-label="Lábléc menü">
-      <a href="/">Főoldal</a>
-      <a href="/rolunk">Rólunk</a>
-      <a href="/referenciak">Referenciák</a>
-      <a href="/kapcsolat">Kapcsolat</a>
+      <a href={base}>Főoldal</a>
+      <a href={`${base}rolunk`}>Rólunk</a>
+      <a href={`${base}referenciak`}>Referenciák</a>
+      <a href={`${base}kapcsolat`}>Kapcsolat</a>
     </nav>
 
     <p class="site-footer__copy">

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ContactForm from '../components/ContactForm.astro';
+const base = import.meta.env.BASE_URL + '/';
 ---
 
 <Base title="Kapcsolat" description="Lépjen kapcsolatba az Aqua-Line Bau Kft.-vel.">
@@ -35,7 +36,7 @@ import ContactForm from '../components/ContactForm.astro';
           <a href="mailto:info@aqualinebau.hu">info@aqualinebau.hu</a>
         </p>
         <img
-          src="/images/aqua3.png"
+          src={`${base}images/aqua3.png`}
           alt=""
           class="quote-section__img"
           loading="lazy"

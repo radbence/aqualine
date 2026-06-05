@@ -1,9 +1,11 @@
 ---
+const base = import.meta.env.BASE_URL + '/';
+
 const navLinks = [
-  { label: 'Főoldal', href: '/' },
-  { label: 'Rólunk', href: '/rolunk' },
-  { label: 'Referenciák', href: '/referenciak' },
-  { label: 'Kapcsolat', href: '/kapcsolat' },
+  { label: 'Főoldal', href: base, path: '/' },
+  { label: 'Rólunk', href: `${base}rolunk`, path: '/rolunk' },
+  { label: 'Referenciák', href: `${base}referenciak`, path: '/referenciak' },
+  { label: 'Kapcsolat', href: `${base}kapcsolat`, path: '/kapcsolat' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -11,8 +13,8 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a href="/" class="site-header__logo" aria-label="Aqua-Line Bau Kft. — Főoldal">
-      <img src="/images/aqualine.svg" alt="Aqua-Line Bau Kft." width="200" height="38" />
+    <a href={base} class="site-header__logo" aria-label="Aqua-Line Bau Kft. — Főoldal">
+      <img src={`${base}images/aqualine.svg`} alt="Aqua-Line Bau Kft." width="200" height="38" />
     </a>
 
     <button
@@ -33,7 +35,7 @@ const currentPath = Astro.url.pathname;
           <li>
             <a
               href={link.href}
-              class={`site-header__nav-link${currentPath === link.href ? ' is-active' : ''}`}
+              class={`site-header__nav-link${currentPath === link.path ? ' is-active' : ''}`}
             >
               {link.label}
             </a>

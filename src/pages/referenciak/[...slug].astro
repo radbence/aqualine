@@ -17,7 +17,7 @@ const references = await getCollection('referenciak');
 const ref = references.find((r) => r.id === slug);
 
 if (!ref) {
-  return Astro.redirect('/404');
+  return Astro.redirect(`${import.meta.env.BASE_URL}/404`);
 }
 
 const { Content } = await render(ref);
@@ -46,14 +46,14 @@ const { Content } = await render(ref);
       {ref.data.galeria && ref.data.galeria.length > 0 && (
         <div class="detail-content__gallery">
           {ref.data.galeria.map((img) => (
-            <img src={img} alt={ref.data.cim} loading="lazy" />
+            <img src={`${import.meta.env.BASE_URL}/${img.replace(/^\//, '')}`} alt={ref.data.cim} loading="lazy" />
           ))}
         </div>
       )}
     </section>
 
     <nav class="detail-back">
-      <a href="/referenciak">&larr; Vissza a referenciákhoz</a>
+      <a href={`${import.meta.env.BASE_URL}/referenciak`}>&larr; Vissza a referenciákhoz</a>
     </nav>
   </main>
 </Base>
