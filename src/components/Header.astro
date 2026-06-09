@@ -1,5 +1,8 @@
 ---
-const base = import.meta.env.BASE_URL + '/';
+import { Image } from 'astro:assets';
+import logoSrc from '../assets/images/aqualine.svg';
+
+const base = import.meta.env.BASE_URL;
 
 const navLinks = [
   { label: 'Főoldal', href: base, path: '/' },
@@ -14,7 +17,7 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <div class="site-header__inner">
     <a href={base} class="site-header__logo" aria-label="Aqua-Line Bau Kft. — Főoldal">
-      <img src={`${base}images/aqualine.svg`} alt="Aqua-Line Bau Kft." width="200" height="38" />
+      <Image src={logoSrc} alt="Aqua-Line Bau Kft." width={200} height={38} />
     </a>
 
     <button
@@ -36,6 +39,7 @@ const currentPath = Astro.url.pathname;
             <a
               href={link.href}
               class={`site-header__nav-link${currentPath === link.path ? ' is-active' : ''}`}
+              {...(currentPath === link.path ? { 'aria-current': 'page' } : {})}
             >
               {link.label}
             </a>

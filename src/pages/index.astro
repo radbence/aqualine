@@ -1,9 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import ContactForm from '../components/ContactForm.astro';
+import heroBg from '../assets/images/1337.jpg';
+import aboutImg from '../assets/images/1212.jpg';
+import aquaImg from '../assets/images/aqua3.png';
 
-const base = import.meta.env.BASE_URL + '/';
+const base = import.meta.env.BASE_URL;
+
+const imageModules = import.meta.glob<{ default: import('astro').ImageMetadata }>(
+  '../assets/images/*.{jpg,png}',
+);
+const imageMap: Record<string, import('astro').ImageMetadata> = {};
+for (const [path, loader] of Object.entries(imageModules)) {
+  const filename = path.split('/').pop()!;
+  imageMap[filename] = (await loader()).default;
+}
 
 const referenciak = await getCollection('referenciak');
 const kiemeltek = referenciak
@@ -15,10 +28,15 @@ function hasBody(ref: typeof referenciak[number]): boolean {
   return ref.body != null && ref.body.trim().length > 0 && !ref.body.startsWith('TODO');
 }
 
+function getCoverImage(borito: string | undefined): import('astro').ImageMetadata | undefined {
+  if (!borito || borito === 'TODO') return undefined;
+  const filename = borito.replace(/^.*\//, '');
+  return imageMap[filename];
+}
+
 const alapitasEve = 2011;
 const jelenlegiEv = new Date().getFullYear();
 const eveMukodik = jelenlegiEv - alapitasEve;
-// TODO: Bence igazolja a 250-es számot — valószínűleg elavult.
 const projektSzam = 250;
 
 const szolgaltatasok = [
@@ -45,11 +63,13 @@ const szolgaltatasok = [
 ];
 ---
 
-<Base title="" description="Nagyvolumenű mélyépítési és vízügyes munkák teljeskörű kivitelezése.">
+<Base title="" description="Nagyvolumenű mélyépítési és vízügyi munkák teljeskörű kivitelezése Magyarországon. Szennyvíz beruházás, vízi létesítmények, szerkezetépítés, város rehabilitáció — 15 éves tapasztalattal.">
 
 <!-- ===== HERO (split) ===== -->
 <section class="hero-split">
   <div class="hero-split__left hero-split__left--hero">
+    <Image class="hero-split__left-bg" src={heroBg} alt="" loading="eager" />
+    <div class="hero-split__left-overlay"></div>
     <div class="hero-split__text">
       <h1 class="hero-split__heading">AQUA-LINE BAU</h1>
       <p class="hero-split__tagline">
@@ -88,12 +108,11 @@ const szolgaltatasok = [
 <section class="about-teaser" id="rolunk">
   <div class="about-teaser__inner">
     <div class="about-teaser__image">
-      <img
-        src={`${base}images/1212.jpg`}
+      <Image
+        src={aboutImg}
         alt=""
         loading="lazy"
-        width="600"
-        height="350"
+        class="about-teaser__img"
       />
     </div>
     <div class="about-teaser__content">
@@ -134,16 +153,18 @@ const szolgaltatasok = [
       Munkáink
     </h2>
     <div class="works-grid">
-      {kiemeltek.map((ref) => (
+      {kiemeltek.map((ref) => {
+          const coverImg = getCoverImage(ref.data.borito);
+          return (
         <article class="work-card">
-          {ref.data.borito && ref.data.borito !== 'TODO' && (
-            <img
-              src={`${base}${ref.data.borito.replace(/^\//, '')}`}
+          {coverImg && (
+            <Image
+              src={coverImg}
               alt={ref.data.cim}
               class="work-card__img"
               loading="lazy"
-              width="300"
-              height="200"
+              width={300}
+              height={200}
             />
           )}
           <div class="work-card__body">
@@ -155,7 +176,8 @@ const szolgaltatasok = [
             )}
           </div>
         </article>
-      ))}
+          );
+      })}
     </div>
   </div>
 </section>
@@ -178,15 +200,15 @@ const szolgaltatasok = [
         <a href="tel:+36205555878">+36 (20) 5555-878</a>
       </p>
       <p class="quote-section__email">
-        <a href="mailto:info@aqualinebau.hu">info@aqualinebau.hu</a>
+        <a href="mailto:aqualinebau@gmail.com">aqualinebau@gmail.com</a>
       </p>
-      <img
-        src={`${base}images/aqua3.png`}
+      <Image
+        src={aquaImg}
         alt=""
         class="quote-section__img"
         loading="lazy"
-        width="323"
-        height="193"
+        width={323}
+        height={193}
       />
     </div>
   </div>
@@ -215,9 +237,25 @@ const szolgaltatasok = [
   justify-content: center;
 }
 .hero-split__left--hero {
-  background: linear-gradient(135deg, rgba(40,40,40,0.82), rgba(40,40,40,0.9)), url('/images/1337.jpg');
-  background-size: cover;
-  background-position: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(40,40,40,0.82), rgba(40,40,40,0.9));
+}
+.hero-split__left-bg {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero-split__left-bg :global(img) {
+  width: 100%;
+  height: 100%;
+}
+.hero-split__left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(40,40,40,0.82), rgba(40,40,40,0.9));
+  z-index: 1;
 }
 @media (min-width: 768px) {
   .hero-split__left {
@@ -227,6 +265,8 @@ const szolgaltatasok = [
 }
 
 .hero-split__text {
+  position: relative;
+  z-index: 2;
   color: #fff;
   max-width: 600px;
 }
@@ -424,7 +464,7 @@ const szolgaltatasok = [
   overflow: hidden;
   min-height: 100%;
 }
-.about-teaser__image img {
+.about-teaser__img {
   position: absolute;
   top: 0;
   left: 0;

@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-const base = import.meta.env.BASE_URL + '/';
+const base = import.meta.env.BASE_URL;
 ---
 
-<Base title="404 — Az oldal nem található">
+<Base title="404 — Az oldal nem található" noindex={true}>
 
 <main class="page not-found">
   <div class="not-found__inner">

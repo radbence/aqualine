@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2a3a"/>
+      <stop offset="100%" stop-color="#2a3a5a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="12" fill="#4468DA"/>
+  <g transform="translate(80, 160)">
+    <text x="0" y="0" font-family="'Helvetica Neue', Arial, sans-serif" font-size="72" font-weight="700" fill="#FFFFFF" letter-spacing="4">
+      AQUA-LINE BAU
+    </text>
+    <rect x="280" y="28" width="340" height="6" fill="#4468DA"/>
+    <text x="0" y="90" font-family="'Helvetica Neue', Arial, sans-serif" font-size="32" font-weight="700" fill="#4468DA" letter-spacing="2">
+      MÉLYÉPÍTÉS · VÍZÜGY · KIVITELEZÉS
+    </text>
+    <text x="0" y="160" font-family="'Helvetica Neue', Arial, sans-serif" font-size="22" fill="rgba(255,255,255,0.7)" letter-spacing="1">
+      Nagyvolumenű mélyépítési és vízügyes munkák teljeskörű kivitelezése Magyarországon
+    </text>
+    <text x="0" y="210" font-family="'Helvetica Neue', Arial, sans-serif" font-size="22" fill="rgba(255,255,255,0.7)" letter-spacing="1">
+      www.aqualinebau.hu
+    </text>
+  </g>
+  <rect x="80" y="530" width="280" height="40" rx="20" fill="#4468DA"/>
+  <text x="220" y="556" font-family="'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+    Referenciáink
+  </text>
+</svg>

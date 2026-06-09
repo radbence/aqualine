@@ -1,5 +1,5 @@
 ---
-const base = import.meta.env.BASE_URL + '/';
+const base = import.meta.env.BASE_URL;
 const currentYear = new Date().getFullYear();
 ---
 
@@ -15,9 +15,10 @@ const currentYear = new Date().getFullYear();
       <p class="site-footer__contact">
         <a href="tel:+36205555878">+36 (20) 5555-878</a>
         <span aria-hidden="true">&middot;</span>
-        <a href="mailto:info@aqualinebau.hu">info@aqualinebau.hu</a>
+        <a href="mailto:aqualinebau@gmail.com">aqualinebau@gmail.com</a>
       </p>
-      <!-- TODO: cégjegyzékszám, adószám -->
+      <p class="site-footer__company-info">Cégjegyzékszám: 01 09 341199</p>
+      <p class="site-footer__company-info">Adószám: 23435829241</p>
     </div>
 
     <nav class="site-footer__nav" aria-label="Lábléc menü">
@@ -83,6 +84,11 @@ const currentYear = new Date().getFullYear();
 }
 .site-footer__copy {
   margin: 0;
+  font-size: .8rem;
+  color: rgba(255,255,255,0.4);
+}
+.site-footer__company-info {
+  margin: .25rem 0 0;
   font-size: .8rem;
   color: rgba(255,255,255,0.4);
 }

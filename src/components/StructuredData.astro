@@ -1,0 +1,127 @@
+---
+interface Breadcrumb {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  breadcrumbs?: Breadcrumb[];
+  articleData?: {
+    headline: string;
+    description: string;
+    datePublished: string;
+    dateModified?: string;
+    image?: string;
+  };
+}
+
+const { breadcrumbs, articleData } = Astro.props;
+const siteUrl = (Astro.site?.href || 'https://www.aqualinebau.hu').replace(/\/$/, '');
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === import.meta.env.BASE_URL;
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Aqua-Line Bau Kft.',
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.svg`,
+  email: 'aqualinebau@gmail.com',
+  telephone: '+36205555878',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Csíksomlyó utca 2., 1. épület, D lépcsőház 1/6.',
+    addressLocality: 'Budapest',
+    postalCode: '1048',
+    addressCountry: 'HU',
+    addressRegion: 'Budapest',
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'Magyarország',
+  },
+  foundingDate: '2011',
+  knowsAbout: [
+    'Mélyépítés',
+    'Vízügyi kivitelezés',
+    'Szennyvíz beruházás',
+    'Árvízvédelem',
+    'Mederrendezés',
+    'Szerkezetépítés',
+    'Városrehabilitáció',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+36205555878',
+    email: 'aqualinebau@gmail.com',
+    contactType: 'sales',
+    availableLanguage: 'Hungarian',
+  },
+};
+
+const webSiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Aqua-Line Bau Kft.',
+  url: siteUrl,
+  inLanguage: 'hu',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Aqua-Line Bau Kft.',
+    url: siteUrl,
+  },
+};
+
+const generateBreadcrumbSchema = (items: Breadcrumb[]) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.name,
+    item: item.url,
+  })),
+});
+
+const generateArticleSchema = (data: NonNullable<Props['articleData']>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.headline,
+  description: data.description,
+  datePublished: data.datePublished,
+  ...(data.dateModified && { dateModified: data.dateModified }),
+  ...(data.image && {
+    image: new URL(data.image, siteUrl).href,
+  }),
+  author: {
+    '@type': 'Organization',
+    name: 'Aqua-Line Bau Kft.',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Aqua-Line Bau Kft.',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/favicon.svg`,
+    },
+  },
+});
+---
+
+{isHome && (
+  <>
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webSiteSchema)} />
+  </>
+)}
+
+{!isHome && (
+  <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+)}
+
+{breadcrumbs && breadcrumbs.length > 0 && (
+  <script type="application/ld+json" set:html={JSON.stringify(generateBreadcrumbSchema(breadcrumbs))} />
+)}
+
+{articleData && (
+  <script type="application/ld+json" set:html={JSON.stringify(generateArticleSchema(articleData))} />
+)}

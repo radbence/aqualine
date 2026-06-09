@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+
+const siteUrl = 'https://www.aqualinebau.hu';
 
 export async function getStaticPaths() {
   const referenciak = await getCollection('referenciak');
@@ -17,13 +20,46 @@ const references = await getCollection('referenciak');
 const ref = references.find((r) => r.id === slug);
 
 if (!ref) {
-  return Astro.redirect(`${import.meta.env.BASE_URL}/404`);
+  return new Response(null, { status: 404 });
 }
 
 const { Content } = await render(ref);
+
+const imageModules = import.meta.glob<{ default: import('astro').ImageMetadata }>(
+  '../../assets/images/*.{jpg,png}',
+);
+const imageMap: Record<string, import('astro').ImageMetadata> = {};
+for (const [path, loader] of Object.entries(imageModules)) {
+  const filename = path.split('/').pop()!;
+  imageMap[filename] = (await loader()).default;
+}
+
+function getGalleryImage(imgPath: string): import('astro').ImageMetadata | undefined {
+  const filename = imgPath.replace(/^.*\//, '');
+  return imageMap[filename];
+}
 ---
 
-<Base title={ref.data.cim} description={ref.data.cim}>
+<Base
+  title={ref.data.cim}
+  description={`Aqua-Line Bau Kft. mélyépítési és vízügyi referencia: ${ref.data.cim}${ref.data.helyszin && ref.data.helyszin !== 'TODO' ? ` — ${ref.data.helyszin}` : ''}`}
+  ogType="article"
+  publishedTime={ref.data.datum ? ref.data.datum.toISOString() : undefined}
+  modifiedTime={ref.data.datum ? ref.data.datum.toISOString() : undefined}
+  breadcrumbs={[
+    { name: 'Főoldal', url: `${siteUrl}/` },
+    { name: 'Referenciák', url: `${siteUrl}/referenciak` },
+    { name: ref.data.cim, url: `${siteUrl}/referenciak/${ref.id}` },
+  ]}
+  articleData={ref.data.datum ? {
+    headline: ref.data.cim,
+    description: `${ref.data.cim}${ref.data.helyszin && ref.data.helyszin !== 'TODO' ? ` — ${ref.data.helyszin}` : ''}`,
+    datePublished: ref.data.datum.toISOString(),
+    ...(ref.data.borito && ref.data.borito !== 'TODO' && {
+      image: ref.data.borito.replace(/^\//, ''),
+    }),
+  } : undefined}
+>
   <main class="page">
     <section class="hero-secondary">
       <div class="hero-secondary__content">
@@ -45,15 +81,18 @@ const { Content } = await render(ref);
       </div>
       {ref.data.galeria && ref.data.galeria.length > 0 && (
         <div class="detail-content__gallery">
-          {ref.data.galeria.map((img) => (
-            <img src={`${import.meta.env.BASE_URL}/${img.replace(/^\//, '')}`} alt={ref.data.cim} loading="lazy" />
-          ))}
+          {ref.data.galeria.map((imgPath) => {
+            const galleryImg = getGalleryImage(imgPath);
+            return galleryImg ? (
+              <Image src={galleryImg} alt={ref.data.cim} loading="lazy" />
+            ) : null;
+          })}
         </div>
       )}
     </section>
 
     <nav class="detail-back">
-      <a href={`${import.meta.env.BASE_URL}/referenciak`}>&larr; Vissza a referenciákhoz</a>
+      <a href={`${import.meta.env.BASE_URL}referenciak`}>&larr; Vissza a referenciákhoz</a>
     </nav>
   </main>
 </Base>

@@ -1,12 +1,25 @@
 ---
 import Base from '../layouts/Base.astro';
-const base = import.meta.env.BASE_URL + '/';
+import { Image } from 'astro:assets';
+import heroBg from '../assets/images/1337.jpg';
+
+const base = import.meta.env.BASE_URL;
+const siteUrl = 'https://www.aqualinebau.hu';
 ---
 
-<Base title="Rólunk" description="Az Aqua-Line Bau Kft. története és értékei.">
+<Base
+  title="Rólunk"
+  description="Az Aqua-Line Bau Kft. 2011-ben alakult mélyépítési és vízügyi kivitelező cég. Ismerje meg cégünk történetét, filozófiáját és legfontosabb értékeinket — precizitás, megbízhatóság, minőség."
+  breadcrumbs={[
+    { name: 'Főoldal', url: `${siteUrl}/` },
+    { name: 'Rólunk', url: `${siteUrl}/rolunk` },
+  ]}
+>
 
 <main class="page">
   <section class="hero-secondary">
+    <Image class="hero-secondary__bg" src={heroBg} alt="" loading="eager" />
+    <div class="hero-secondary__overlay"></div>
     <div class="hero-secondary__content">
       <h1 class="hero-secondary__title">Cégünkről</h1>
       <p class="hero-secondary__lead">
@@ -105,12 +118,30 @@ const base = import.meta.env.BASE_URL + '/';
 
 <style>
 .hero-secondary {
-  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92)), url('/images/1337.jpg');
-  background-size: cover;
-  background-position: center center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92));
   padding: var(--space-4) var(--space-3);
 }
+.hero-secondary__bg {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero-secondary__bg :global(img) {
+  width: 100%;
+  height: 100%;
+}
+.hero-secondary__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92));
+  z-index: 1;
+}
 .hero-secondary__content {
+  position: relative;
+  z-index: 2;
   max-width: var(--max-width);
   margin: 0 auto;
 }

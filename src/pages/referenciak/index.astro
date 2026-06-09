@@ -1,7 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
-const base = import.meta.env.BASE_URL + '/';
+import heroBg from '../../assets/images/1337.jpg';
+
+const base = import.meta.env.BASE_URL;
+const siteUrl = 'https://www.aqualinebau.hu';
 
 const referenciak = await getCollection('referenciak');
 
@@ -9,18 +13,36 @@ function hasBody(ref: typeof referenciak[number]): boolean {
   return ref.body != null && ref.body.trim().length > 0 && !ref.body.startsWith('TODO');
 }
 
-const photos = ['7.jpg', '4.jpg', '3-1.jpg', '1-1.jpg', '2-1.jpg', '5.jpg', '1.jpg', '3.jpg'];
-const chunkSize = Math.ceil(referenciak.length / photos.length);
+const photoFilenames = ['7.jpg', '4.jpg', '3-1.jpg', '1-1.jpg', '2-1.jpg', '5.jpg', '1.jpg', '3.jpg'];
+const imageModules = import.meta.glob<{ default: import('astro').ImageMetadata }>(
+  '../../assets/images/*.{jpg,png}',
+);
+const imageMap: Record<string, import('astro').ImageMetadata> = {};
+for (const [path, loader] of Object.entries(imageModules)) {
+  const filename = path.split('/').pop()!;
+  imageMap[filename] = (await loader()).default;
+}
+
+const chunkSize = Math.ceil(referenciak.length / photoFilenames.length);
 const chunks: (typeof referenciak)[] = [];
 for (let i = 0; i < referenciak.length; i += chunkSize) {
   chunks.push(referenciak.slice(i, i + chunkSize));
 }
 ---
 
-<Base title="Referenciák" description="Aqua-Line Bau Kft. referenciamunkái">
+<Base
+  title="Referenciák"
+  description="Aqua-Line Bau Kft. mélyépítési és vízügyi referenciamunkái Magyarországon. Árvízvédelem, mederkotrás, zsilipépítés, szennyvíz beruházás — több mint 250 sikeres projekt."
+  breadcrumbs={[
+    { name: 'Főoldal', url: `${siteUrl}/` },
+    { name: 'Referenciák', url: `${siteUrl}/referenciak` },
+  ]}
+>
 
 <main class="page">
   <section class="hero-secondary">
+    <Image class="hero-secondary__bg" src={heroBg} alt="" loading="eager" />
+    <div class="hero-secondary__overlay"></div>
     <div class="hero-secondary__content">
       <h1 class="hero-secondary__title">Referenciáink</h1>
       <p class="hero-secondary__lead">
@@ -32,7 +54,8 @@ for (let i = 0; i < referenciak.length; i += chunkSize) {
   <section class="references-section">
     <div class="references-section__inner">
       {chunks.map((chunk, i) => {
-        const photo = photos[i];
+        const photo = photoFilenames[i];
+        const photoImg = imageMap[photo];
         return (
           <div class="ref-row">
             <div class="ref-row__text">
@@ -49,7 +72,7 @@ for (let i = 0; i < referenciak.length; i += chunkSize) {
               </ul>
             </div>
             <div class="ref-row__image">
-              <img src={`${base}images/${photo}`} alt="" loading="lazy" />
+              {photoImg && <Image src={photoImg} alt="" loading="lazy" />}
             </div>
           </div>
         );
@@ -62,12 +85,30 @@ for (let i = 0; i < referenciak.length; i += chunkSize) {
 
 <style>
 .hero-secondary {
-  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92)), url('/images/1337.jpg');
-  background-size: cover;
-  background-position: center center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92));
   padding: var(--space-4) var(--space-3);
 }
+.hero-secondary__bg {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  z-index: 0;
+}
+.hero-secondary__bg :global(img) {
+  width: 100%;
+  height: 100%;
+}
+.hero-secondary__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(40,40,40,0.85), rgba(40,40,40,0.92));
+  z-index: 1;
+}
 .hero-secondary__content {
+  position: relative;
+  z-index: 2;
   max-width: var(--max-width);
   margin: 0 auto;
 }

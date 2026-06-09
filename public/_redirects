@@ -1,11 +1,6 @@
 # Cloudflare Pages redirects — old WordPress URLs → new Astro URLs
 # Built from WordPress export (import/wordpress-export.xml) — review before deploying.
 
-# Pages
-/rolunk       /rolunk        301
-/referenciak  /referenciak   301
-/kapcsolat    /kapcsolat     301
-
 # Old WordPress attachment/media URLs — now served from /images/
 # Bence: download originals from old server and place in public/images/
 # /wp/wp-content/uploads/2020/09/cropped-555-scaled-e1600963318359.jpg  /images/hero.jpg  301
@@ -13,3 +8,6 @@
 
 # Old post slug (default Hello World — best to 404 or redirect to home)
 /2020/09/24/hello-world  /  301
+
+# Custom 404 page (Cloudflare Pages)
+/404  /404.html  200
