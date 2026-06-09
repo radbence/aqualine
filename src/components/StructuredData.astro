@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { breadcrumbs, articleData } = Astro.props;
-const siteUrl = (Astro.site?.href || 'https://www.aqualinebau.hu').replace(/\/$/, '');
+const siteUrl = (Astro.site?.href || 'https://aqualinebau.hu').replace(/\/$/, '');
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === import.meta.env.BASE_URL;
 
 const orgSchema = {

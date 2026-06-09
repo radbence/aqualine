@@ -83,7 +83,7 @@ The "Kérjen árajánlatot!" form POSTs to Web3Forms. The access key is in `.env
 - Output directory: `dist/`
 - Framework preset: auto-detected (Astro)
 
-**Production domain**: `www.aqualinebau.hu`
+**Production domain**: `aqualinebau.hu`
 
 > **Note**: The `_redirects` file in `public/` is parsed by Cloudflare Pages for redirects and custom 404 handling. If switching to another host, redirects may need to be moved to host configuration.
 

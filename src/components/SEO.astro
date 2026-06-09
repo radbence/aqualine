@@ -13,7 +13,7 @@ const { title, description, image, ogType = 'website', noindex = false, publishe
 const siteTitle = 'Aqua-Line Bau Kft.';
 const fullTitle = title ? `${title} — ${siteTitle}` : siteTitle;
 const metaDescription = description || 'Nagyvolumenű mélyépítési és vízügyes munkák teljeskörű kivitelezése.';
-const siteUrl = (Astro.site?.href || 'https://www.aqualinebau.hu').replace(/\/$/, '');
+const siteUrl = (Astro.site?.href || 'https://aqualinebau.hu').replace(/\/$/, '');
 const pageUrl = new URL(Astro.url.pathname, siteUrl).href;
 const shareImage = image ? new URL(image, siteUrl).href : `${siteUrl}/images/og-image.svg`;
 ---
