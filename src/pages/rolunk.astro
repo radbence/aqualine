@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import heroBg from '../assets/images/1337.jpg';
 
 const base = import.meta.env.BASE_URL;
-const siteUrl = 'https://aqualinebau.hu';
+const siteUrl = (Astro.site?.href || 'https://aqualinebau.hu').replace(/\/$/, '');
 ---
 
 <Base

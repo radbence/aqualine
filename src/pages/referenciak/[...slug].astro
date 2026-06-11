@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 
-const siteUrl = 'https://aqualinebau.hu';
+const siteUrl = (Astro.site?.href || 'https://aqualinebau.hu').replace(/\/$/, '');
 
 export async function getStaticPaths() {
   const referenciak = await getCollection('referenciak');
@@ -45,7 +45,6 @@ function getGalleryImage(imgPath: string): import('astro').ImageMetadata | undef
   description={`Aqua-Line Bau Kft. mélyépítési és vízügyi referencia: ${ref.data.cim}${ref.data.helyszin && ref.data.helyszin !== 'TODO' ? ` — ${ref.data.helyszin}` : ''}`}
   ogType="article"
   publishedTime={ref.data.datum ? ref.data.datum.toISOString() : undefined}
-  modifiedTime={ref.data.datum ? ref.data.datum.toISOString() : undefined}
   breadcrumbs={[
     { name: 'Főoldal', url: `${siteUrl}/` },
     { name: 'Referenciák', url: `${siteUrl}/referenciak` },

@@ -5,7 +5,7 @@ import { Image } from 'astro:assets';
 import heroBg from '../assets/images/1337.jpg';
 import aquaImg from '../assets/images/aqua3.png';
 
-const siteUrl = 'https://aqualinebau.hu';
+const siteUrl = (Astro.site?.href || 'https://aqualinebau.hu').replace(/\/$/, '');
 ---
 
 <Base
@@ -36,7 +36,7 @@ const siteUrl = 'https://aqualinebau.hu';
         <ContactForm />
       </div>
       <div class="quote-section__contact-col">
-        <h3 class="quote-section__contact-title">Elérhetőségeink</h3>
+        <h2 class="quote-section__contact-title">Elérhetőségeink</h2>
         <address class="quote-section__address">
           <p><strong>Székhely:</strong><br/>1048 Budapest, Csíksomlyó utca 2., 1. épület, D lépcsőház 1/6.</p>
           <p><strong>Telephely:</strong><br/>4031 Debrecen, Bartók Béla út 115.</p>
@@ -50,7 +50,7 @@ const siteUrl = 'https://aqualinebau.hu';
         </p>
         <Image
           src={aquaImg}
-          alt=""
+          alt="Aqua-Line Bau Kft. logó"
           class="quote-section__img"
           loading="lazy"
           width={323}

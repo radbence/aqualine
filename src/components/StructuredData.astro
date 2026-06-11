@@ -24,7 +24,7 @@ const orgSchema = {
   '@type': 'Organization',
   name: 'Aqua-Line Bau Kft.',
   url: siteUrl,
-  logo: `${siteUrl}/favicon.svg`,
+  logo: `${siteUrl}/images/og-image.png`,
   email: 'aqualinebau@gmail.com',
   telephone: '+36205555878',
   address: {
@@ -33,13 +33,13 @@ const orgSchema = {
     addressLocality: 'Budapest',
     postalCode: '1048',
     addressCountry: 'HU',
-    addressRegion: 'Budapest',
+    addressRegion: 'Pest',
   },
   areaServed: {
     '@type': 'Country',
     name: 'Magyarország',
   },
-  foundingDate: '2011',
+  foundingDate: '2011-01-01',
   knowsAbout: [
     'Mélyépítés',
     'Vízügyi kivitelezés',
@@ -101,7 +101,7 @@ const generateArticleSchema = (data: NonNullable<Props['articleData']>) => ({
     name: 'Aqua-Line Bau Kft.',
     logo: {
       '@type': 'ImageObject',
-      url: `${siteUrl}/favicon.svg`,
+      url: `${siteUrl}/images/og-image.png`,
     },
   },
 });
