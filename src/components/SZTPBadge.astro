@@ -1,0 +1,147 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const text = `Az Aqua-Line Bau Kft. sikeresen pályázott a DIMOP Plusz 1.2.6-24 felhíváson.
+Örömmel tájékoztatjuk partnereinket és ügyfeleinket, hogy az Aqua-Line Bau Kft. a „Aqua-line Bau Kft digitális infrastruktúrájának fejlesztése" című és DIMOP_PLUSZ-1.2.6-24-2025-00450 projektjével támogatást nyert a Digitális Megújulás Operatív Program Plusz keretében, a DIMOP Plusz-1.2.6-24 felhívásban.
+A projekt teljes költsége 5 562 020 Ft, amelyből 5 005 818 Ft vissza nem térítendő támogatás, az Európai Regionális Fejlesztési Alap és a Magyar Állam társfinanszírozásában valósul meg. A fejlesztés célja társaságunk digitális infrastruktúrájának korszerűsítése és a digitalizációs átállás elősegítése, amelynek keretében informatikai eszközök, szoftverek és felhőszolgáltatások kerülnek beszerzésre, valamint munkatársaink képzésben is részesülnek.
+A projekt kezdete: 2025. június 1.
+A projekt tervezett befejezése: 2026. november 30.
+Ez a fejlesztés hozzájárul a működésünk gördülékenységéhez, hogy a megrendelőinknek még korszerűbb és hatékonyabb szolgáltatásokat nyújthassunk.`;
+---
+
+<button
+  class="sztp-badge"
+  id="sztp-badge"
+  aria-label="SZTP támogatói információ megtekintése"
+  title="DIMOP Plusz pályázati információk"
+>
+  <img src={`${base}sztp.jpg`} alt="SZTP logo" width="440" height="132" />
+</button>
+
+<div class="sztp-overlay" id="sztp-overlay" aria-hidden="true">
+  <div class="sztp-modal" id="sztp-modal" role="dialog" aria-modal="true" aria-labelledby="sztp-title">
+    <button
+      class="sztp-modal__close"
+      id="sztp-close"
+      aria-label="Bezárás"
+    >&times;</button>
+    <div class="sztp-modal__content">
+      <p id="sztp-title">{text}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const badge = document.getElementById('sztp-badge');
+  const overlay = document.getElementById('sztp-overlay');
+  const closeBtn = document.getElementById('sztp-close');
+
+  function openModal() {
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  badge?.addEventListener('click', openModal);
+
+  closeBtn?.addEventListener('click', closeModal);
+
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay?.getAttribute('aria-hidden') === 'false') {
+      closeModal();
+    }
+  });
+</script>
+
+<style>
+.sztp-badge {
+  position: fixed;
+  bottom: var(--space-2);
+  right: var(--space-2);
+  z-index: 99;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-1);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  transition: box-shadow .2s;
+}
+.sztp-badge:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.18);
+}
+.sztp-badge img {
+  display: block;
+  width: 440px;
+  height: auto;
+}
+
+.sztp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+}
+.sztp-overlay[aria-hidden="true"] {
+  display: none;
+}
+
+.sztp-modal {
+  position: relative;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  max-width: 640px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: var(--space-3);
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+}
+
+.sztp-modal__close {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-text);
+  padding: var(--space-1);
+  border-radius: var(--radius);
+  transition: background .15s;
+}
+.sztp-modal__close:hover {
+  background: var(--color-bg-alt);
+}
+
+.sztp-modal__content {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  white-space: pre-line;
+}
+.sztp-modal__content p {
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .sztp-badge img {
+    width: 260px;
+  }
+}
+</style>
